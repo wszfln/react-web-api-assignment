@@ -7,6 +7,7 @@ import defaultErrHandler from './errHandler';
 import moviesRouter from './api/movies';   //import movies router
 import authenticate from './authenticate';
 import actorsRouter from './api/actors';
+import reviewsRouter from './api/reviews';
 
 dotenv.config();
 
@@ -18,7 +19,8 @@ app.use(express.json());
 app.use('/api/users', usersRouter);
 app.use('/api/movies', moviesRouter); //ADD THIS BEFORE THE DEFAULT ERROR HANDLER.
 app.use('/api/movies',authenticate,  moviesRouter);
-app.use('/api/actors', actorsRouter)
+app.use('/api/actors', actorsRouter);
+app.use('/api/reviews', reviewsRouter);
 app.use(defaultErrHandler);
 
 app.listen(port, () => {

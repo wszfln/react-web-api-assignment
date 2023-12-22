@@ -9,6 +9,7 @@ import Paper from "@mui/material/Paper";
 import { Link } from "react-router-dom";
 import { getMovieReviews } from "../../api/tmdb-api";
 import { excerpt } from "../../util";
+import StarIcon from '@mui/icons-material/Star';
 
 export default function MovieReviews({ movie }) {
   const [reviews, setReviews] = useState([]);
@@ -26,27 +27,23 @@ export default function MovieReviews({ movie }) {
         <TableHead>
           <TableRow>
             <TableCell >Author</TableCell>
-            <TableCell align="center">Excerpt</TableCell>
-            <TableCell align="right">More</TableCell>
+            <TableCell align="left">Excerpt</TableCell>
+            <TableCell align="left">Last Updated</TableCell>
+            <TableCell align="left">Rating</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {reviews.map((r) => (
-            <TableRow key={r.id}>
+            <TableRow>
               <TableCell component="th" scope="row">
                 {r.author}
               </TableCell>
               <TableCell >{excerpt(r.content)}</TableCell>
-              <TableCell >
-              <Link
-                  to={`/reviews/${r.id}`}
-                  state={{
-                      review: r,
-                      movie: movie,
-                  }}
-                >
-                  Full Review
-                </Link>
+              <TableCell component="th" scope="row">
+                {r.updated_at.slice(0,16)}
+              </TableCell>
+              <TableCell component="th" scope="row">
+                {r.rating}<StarIcon></StarIcon>
               </TableCell>
             </TableRow>
           ))}

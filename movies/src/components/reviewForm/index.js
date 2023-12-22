@@ -9,6 +9,8 @@ import { useForm, Controller } from "react-hook-form";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
+import { addReview } from "../../api/tmdb-api";
+import { AuthContext } from "../../contexts/authContext";
 
 const ratings = [
   {
@@ -65,10 +67,11 @@ const ReviewForm = ({ movie }) => {
   const [rating, setRating] = useState(3);
   const [open, setOpen] = useState(false); 
   const navigate = useNavigate();
+  const userContext = useContext(AuthContext)
+  const userName = userContext.userName
   
   const defaultValues = {
-    author: "",
-    review: "",
+    content: "",
     agree: false,
     rating: "3",
   };
@@ -88,7 +91,8 @@ const ReviewForm = ({ movie }) => {
     review.movieId = movie.id;
     review.rating = rating;
     // console.log(review);
-    context.addReview(movie, review);
+    review.author = userName;
+    addReview(userName, movie, review);
     setOpen(true); // NEW
   };
 
@@ -147,7 +151,7 @@ const ReviewForm = ({ movie }) => {
           </Typography>
         )}
         <Controller
-          name="review"
+          name="content"
           control={control}
           rules={{
             required: "Review cannot be empty.",
@@ -160,11 +164,11 @@ const ReviewForm = ({ movie }) => {
               margin="normal"
               required
               fullWidth
-              name="review"
+              name="content"
               value={value}
               onChange={onChange}
               label="Review text"
-              id="review"
+              id="content"
               multiline
               minRows={10}
             />
