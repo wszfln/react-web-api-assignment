@@ -43,26 +43,17 @@ export const getMovie = (args) => {
    });
   };
   
-  export const getMovieImages = ({ queryKey }) => {
-    const [, idPart] = queryKey;
+  export const getMovieImages = (args) => {
+    const [, idPart] = args.queryKey;
     const { id } = idPart;
     return fetch(
-            `http://localhost:8080/api/movies/tmdb/movie/${id}/images`, {
-                headers: {
-                    'Authorization': window.localStorage.getItem('token')
-                }
-            }
-        ).then((response) => {
-            if (!response.ok) {
-                throw new Error(response.json().message);
-            }
-            return response.json();
-
-        })
-        .catch((error) => {
-            throw error
-        });
-};
+      `http://localhost:8080/api/movies/tmdb/movie/${id}/images`,
+      ).then(res => {
+          return res.json();
+      }).catch((error) => {
+          console.log(error);
+      });
+  };
 
   export const getMovieReviews = (id) => {
     return fetch(
@@ -135,64 +126,47 @@ export const getMovie = (args) => {
     const [, idPart] = args.queryKey;
     const { id } = idPart;
     return fetch(
-      `https://api.themoviedb.org/3/person/${id}?api_key=${process.env.REACT_APP_TMDB_KEY}`
-    ).then((response) => {
-      if (!response.ok) {
-        throw new Error(response.json().message);
-      }
-      return response.json();
-    })
-    .catch((error) => {
-      throw error
-  });
-  };
+      `https://localhost:8080/api/actors/tmdb/actor/${id}`,
+    ).then(res => {
+        return res.json();
+    }).catch((error) => {
+        console.log(error);
+    });
+    };
 
   export const getPopularPeople = () => {
-    return fetch(
-      `https://api.themoviedb.org/3/person/popular?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&page=1`
-    ).then((response) => {
-      if (!response.ok) {
-        throw new Error(response.json().message);
-      }
-      return response.json();
-    })
-    .catch((error) => {
-       throw error
-    });
+      return fetch(
+         'https://localhost:8080/api/actors/tmdb/popular',
+      ).then(res => {
+          return res.json();
+      }).catch((error) => {
+          console.log(error);
+      });
   };
 
   export const getPersonImages = ({ queryKey }) => {
     const [, idPart] = queryKey;
     const { id } = idPart;
     return fetch(
-      `https://api.themoviedb.org/3/person/${id}/images?api_key=${process.env.REACT_APP_TMDB_KEY}`
-    ).then( (response) => {
-      if (!response.ok) {
-        throw new Error(response.json().message);
-      }
-      return response.json();
+      `https://localhost:8080/api/actors/tmdb/actor/${id}/images`,
+  ).then(res => {
+      return res.json();
+  }).catch((error) => {
+      console.log(error);
+  });
+};
 
-    })
-    .catch((error) => {
-      throw error
-   });
-  };
-
-  export const getPeopleMovieCredits = ({ queryKey }) => {
-    const [, idPart] = queryKey;
-    const { id } = idPart;
+export const getPeopleMovieCredits = (args) => {
+  const [, idPart] = args.queryKey;
+  const { id } = idPart;
     return fetch(
-      `https://api.themoviedb.org/3/person/${id}/movie_credits?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US`
-    ).then((response) => {
-      if (!response.ok) {
-        throw new Error(response.json().message);
-      }
-      return response.json();
-    })
-    .catch((error) => {
-       throw error
-    });
-  };
+      `https://localhost:8080/api/actors/tmdb/actor/${id}/movie-credits`,
+  ).then(res => {
+      return res.json();
+  }).catch((error) => {
+      console.log(error);
+  });
+};
 
   export const login = async (username, password) => {
     const response = await fetch('http://localhost:8080/api/users', {

@@ -1,6 +1,6 @@
 import {
     getUpcomingMovies, getGenres, getMovies, getMovie, getMovieImages, getSimilarMovies, getCredits, getKeywords
-  } from '../tmdb-api';
+  } from '../tmdb/tmdb-api';
 import movieModel from './movieModel';
 import asyncHandler from 'express-async-handler';
 import express from 'express';
@@ -61,11 +61,10 @@ router.get('/tmdb/movie/:id', asyncHandler(async(req, res) => {
     res.status(200).json(Movie);
 }));
 
-router.get('/tmdb/movie/:id/images', asyncHandler(async(req, res) => {
-    const id = req.params.id;
-    const result = await getMovieImages(id);
-    res.status(200).json(result);
-}));
+router.get('/tmdb/movie/:id/images', asyncHandler( async(req, res) => {
+    const images = await getMovieImages(req.params.id);
+    res.status(200).json(images);
+  }));
 
 router.get('/tmdb/movie/:id/similar', asyncHandler( async(req, res,) => {
     const movies = await getSimilarMovies(req.params.id);
